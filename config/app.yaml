@@ -1,0 +1,41 @@
+# Application Configuration
+app:
+  name: "AgroSentinel AI"
+  version: "0.1.0"
+  description: "Multimodal Crop Disease Outbreak Early-Warning System"
+  debug: true
+  
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+
+cors:
+  origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+  allow_credentials: true
+  allow_methods: ["*"]
+  allow_headers: ["*"]
+
+database:
+  # Use SQLite for development (no PostgreSQL installation required)
+  url: "sqlite:///./agrosentinel.db"
+  # Production PostgreSQL (uncomment when ready):
+  # url: "postgresql://agrosentinel:password@localhost:5432/agrosentinel"
+  echo: false
+
+storage:
+  provider: "local"  # Options: local, s3
+  local_path: "./data/uploads"
+  max_file_size_mb: 10
+
+auth:
+  secret_key: "CHANGE_THIS_IN_PRODUCTION_USE_ENV_VAR"
+  algorithm: "HS256"
+  access_token_expire_minutes: 60
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/agrosentinel.log"

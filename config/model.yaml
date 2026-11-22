@@ -1,0 +1,93 @@
+# Model Configuration
+vision:
+  model_name: "efficientnet_b0"  # efficientnet_b0 | efficientnet_b2 | convnext_tiny
+  pretrained: true
+  num_classes: 15  # Number of disease classes
+  embedding_dim: 1280  # EfficientNet-B0 output features
+  projection_dim: 128  # Multimodal common dimension
+  image_size: 224
+  dropout: 0.3
+  checkpoint_path: "./models/checkpoints/vision_model.pt"
+  exported_path: "./models/exported/vision_model_traced.pt"
+
+weather:
+  model_name: "xgboost"
+  embedding_dim: 128
+  n_estimators: 200
+  max_depth: 6
+  learning_rate: 0.1
+  checkpoint_path: "./models/checkpoints/weather_model.pkl"
+
+fusion:
+  # Architecture: gated_cross_attention | concatenation_baseline
+  model_name: "gated_cross_attention"
+  modality_dim: 128  # All modalities projected to this dim
+  num_heads: 4
+  num_layers: 2
+  dropout: 0.1
+  
+  # Task heads output dims
+  num_disease_classes: 15
+  severity_output: 1
+  risk_output: 1  # 0-1 scalar (sigmoid)
+  
+  checkpoint_path: "./models/checkpoints/fusion_model.pt"
+  
+  # Multi-task loss weights
+  loss_weights:
+    disease: 1.0
+    severity: 0.5
+    risk_current: 1.0
+    risk_3d: 0.8
+    risk_5d: 0.7
+    risk_7d: 0.6
+    spread: 0.8
+
+forecasting:
+  model_name: "xgboost_temporal"
+  n_estimators: 300
+  max_depth: 5
+  learning_rate: 0.05
+  checkpoint_path: "./models/checkpoints/forecasting_model.pkl"
+
+clustering:
+  algorithm: "dbscan"
+  eps_km: 5.0  # 5 km radius for outbreak cluster
+  min_samples: 3  # Minimum cases to form a cluster
+  min_disease_probability: 0.4  # Only cluster high-confidence predictions
+
+disease_classes:
+  - "healthy"
+  - "late_blight"
+  - "early_blight"
+  - "bacterial_spot"
+  - "septoria_leaf_spot"
+  - "leaf_mold"
+  - "spider_mites"
+  - "target_spot"
+  - "mosaic_virus"
+  - "yellow_leaf_curl_virus"
+  - "powdery_mildew"
+  - "downy_mildew"
+  - "rust"
+  - "anthracnose"
+  - "fusarium_wilt"
+
+crop_types:
+  - "tomato"
+  - "wheat"
+  - "rice"
+  - "maize"
+  - "soybean"
+  - "potato"
+  - "cotton"
+  - "onion"
+
+growth_stages:
+  - "germination"
+  - "seedling"
+  - "vegetative"
+  - "flowering"
+  - "fruit_development"
+  - "maturity"
+  - "harvest"

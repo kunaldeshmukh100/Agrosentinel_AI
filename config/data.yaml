@@ -1,0 +1,86 @@
+# Data Configuration
+synthetic:
+  num_farms: 500
+  num_observations: 2000
+  num_outbreak_scenarios: 10
+  
+  # Geographic bounds for synthetic data (Nashik district approximation)
+  lat_min: 19.5
+  lat_max: 20.5
+  lon_min: 73.5
+  lon_max: 74.5
+  
+  random_seed: 42
+  output_path: "./data/synthetic/"
+
+plantvillage:
+  # PlantVillage dataset (download separately)
+  raw_path: "./data/raw/plantvillage/"
+  processed_path: "./data/processed/plantvillage/"
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  # Field-level splitting to prevent data leakage
+  split_strategy: "random"  # Options: random, field, temporal, geographic
+
+weather:
+  # Feature engineering settings
+  rolling_windows: [1, 3, 7]  # Days for rolling averages
+  anomaly_baseline_days: 30
+  
+features:
+  weather:
+    - "temperature_mean_1d"
+    - "temperature_mean_3d"
+    - "temperature_mean_7d"
+    - "humidity_mean_1d"
+    - "humidity_mean_3d"
+    - "humidity_mean_7d"
+    - "rainfall_1d"
+    - "rainfall_3d"
+    - "rainfall_7d"
+    - "consecutive_wet_days"
+    - "wind_mean"
+    - "temperature_anomaly"
+    - "humidity_anomaly"
+    - "disease_favorable_days"
+  
+  crop:
+    - "crop_type_encoded"
+    - "growth_stage_encoded"
+    - "days_after_sowing"
+    - "stage_susceptibility_index"
+  
+  geospatial:
+    - "nearby_cases_5km"
+    - "nearby_cases_10km"
+    - "local_disease_density"
+    - "nearest_infected_km"
+    - "cluster_id"
+    - "in_active_cluster"
+    - "cluster_growth_rate"
+  
+  satellite:
+    - "ndvi_current"
+    - "ndwi_current"
+    - "evi_current"
+    - "ndvi_7d_change"
+    - "ndvi_14d_change"
+    - "vegetation_anomaly"
+  
+  historical:
+    - "historical_case_count"
+    - "historical_outbreak_frequency"
+    - "seasonal_risk_score"
+    - "days_since_last_outbreak"
+    - "previous_max_severity"
+
+# Disease susceptibility by crop stage (used in synthetic generation)
+stage_susceptibility:
+  germination: 0.2
+  seedling: 0.4
+  vegetative: 0.6
+  flowering: 0.9
+  fruit_development: 0.85
+  maturity: 0.5
+  harvest: 0.3

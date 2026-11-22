@@ -1,0 +1,48 @@
+# Alert Thresholds Configuration
+# All risk values are 0.0 to 1.0 (probabilities)
+
+alert_levels:
+  GREEN:
+    min: 0.0
+    max: 0.30
+    label: "Low Risk"
+    color: "#22c55e"
+    action: "Continue routine monitoring"
+    
+  YELLOW:
+    min: 0.30
+    max: 0.55
+    label: "Moderate Risk"
+    color: "#eab308"
+    action: "Increase monitoring frequency. Inspect nearby farms."
+    
+  ORANGE:
+    min: 0.55
+    max: 0.75
+    label: "High Risk"
+    color: "#f97316"
+    action: "Alert agricultural officer. Begin preventive measures."
+    
+  RED:
+    min: 0.75
+    max: 1.0
+    label: "Critical Risk"
+    color: "#ef4444"
+    action: "Immediate intervention required. Notify district officer."
+
+# Cluster alert escalation
+cluster_alert:
+  min_cases_for_alert: 5
+  min_growth_rate_for_escalation: 1.5  # 50% growth triggers escalation
+  spread_probability_threshold: 0.6
+
+# Early warning trigger
+early_warning:
+  risk_trend_threshold: 0.15  # Risk increase per day to trigger warning
+  consecutive_days_increase: 2  # Days of consecutive increase before warning
+
+# Officer notification triggers
+officer_notification:
+  new_cluster_detected: true
+  cluster_size_threshold: 8
+  risk_level_escalation: true  # Notify when level changes GREEN→YELLOW, etc.

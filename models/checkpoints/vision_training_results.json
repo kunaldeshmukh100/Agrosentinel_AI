@@ -1,0 +1,12 @@
+{
+  "experiment": "vision_training",
+  "model_version": "vision_v0.1",
+  "dataset_type": "Synthetic (Pipeline Test)",
+  "device": "cuda",
+  "best_val_accuracy": 0.8775,
+  "stage1_epochs": 5,
+  "stage2_epochs": 10,
+  "final_train_loss": 0.2786,
+  "final_val_loss": 0.4098,
+  "note": "PIPELINE TEST WITH SYNTHETIC DATA - not a real disease detector"
+}
